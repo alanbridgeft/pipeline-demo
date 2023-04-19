@@ -10,9 +10,10 @@ func Test_handle(t *testing.T) {
 	}
 
 	tests := []struct {
-		name string
-		args args
-		want string
+		name    string
+		args    args
+		want    string
+		wantErr bool
 	}{
 		{
 			name: "add 12 and 8",
@@ -20,7 +21,8 @@ func Test_handle(t *testing.T) {
 				X: 12,
 				Y: 8,
 			}},
-			want: "sum=20",
+			want:    "sum=20",
+			wantErr: false,
 		},
 		{
 			name: "add 8 and 12",
@@ -28,7 +30,8 @@ func Test_handle(t *testing.T) {
 				X: 8,
 				Y: 12,
 			}},
-			want: "sum=20",
+			want:    "sum=20",
+			wantErr: false,
 		},
 		{
 			name: "add 0 and 5",
@@ -36,7 +39,8 @@ func Test_handle(t *testing.T) {
 				X: 0,
 				Y: 5,
 			}},
-			want: "sum=5",
+			want:    "sum=5",
+			wantErr: false,
 		},
 		{
 			name: "add -3 and 4",
@@ -44,14 +48,20 @@ func Test_handle(t *testing.T) {
 				X: -3,
 				Y: 4,
 			}},
-			want: "sum=1",
+			want:    "sum=1",
+			wantErr: false,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := handle(tt.args.event); got != tt.want {
-				t.Errorf("handle() = %v, want %v", got, tt.want)
+			got, err := handle(tt.args.event)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("handle() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("handle() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
