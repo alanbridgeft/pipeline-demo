@@ -1,0 +1,13 @@
+version: 0.0
+Resources:
+  - myLambdaFunction:
+      Type: AWS::Lambda::Function
+      Properties:
+        Name: "PipelineDemoStack-AddHandler0B6A3628-rybuMAQd9sDr"
+        Alias: "pipelineDemoApp"
+#        CurrentVersion: "1"
+#        TargetVersion: "2"
+
+#Hooks:
+#  - BeforeAllowTraffic: "LambdaFunctionToValidateBeforeTrafficShift"
+#  - AfterAllowTraffic: "LambdaFunctionToValidateAfterTrafficShift"

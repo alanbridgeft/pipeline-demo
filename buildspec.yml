@@ -16,3 +16,7 @@ phases:
       - echo Build completed on `date`
       - echo Running tests
       - go test ./...
+
+artifacts:
+  files:
+    - '**/*'
