@@ -1,0 +1,11 @@
+version: '3'
+
+tasks:
+  # builds all the lambdas for release to AWS
+  build-lambdas:
+    dir: 'lambda'
+    cmds:
+      - go build -o bin/app.bin .
+    env:
+      GOOS: linux
+      GOARCH: amd64
