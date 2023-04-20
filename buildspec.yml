@@ -4,18 +4,15 @@ phases:
   install:
     runtime-versions:
       golang: latest
-  pre_build:
-    commands:
-      - echo Nothing to do in the pre_build phase...
   build:
     commands:
       - echo Build started on `date`
       - cd lambda && go build -o bin/app.bin .
   post_build:
     commands:
-      - echo Build completed on `date`
-      - echo Running tests
-      - go test ./...
+      - echo Executing create-deployment.sh script
+      - ./create-deployment.sh
+      - echo Done
 
 artifacts:
   files:

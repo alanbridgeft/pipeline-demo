@@ -9,3 +9,10 @@ tasks:
     env:
       GOOS: linux
       GOARCH: amd64
+
+  create-deployment:
+    cmds:
+      - echo Filename is $filename
+    env:
+      filename: lambda-bin-{{$RANDOM}}.zip
+    silent: true
