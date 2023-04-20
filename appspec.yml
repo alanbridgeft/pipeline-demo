@@ -5,5 +5,5 @@ Resources:
       Properties:
         Name: "PipelineDemoStack-AddHandler0B6A3628-rybuMAQd9sDr"
         Alias: "pipelineDemoApp"
-        CurrentVersion: "$LATEST"
-        TargetVersion: "$LATEST"
+        CurrentVersion: "1"
+        TargetVersion: "2"
