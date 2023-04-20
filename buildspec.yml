@@ -10,8 +10,13 @@ phases:
       - cd lambda && go build -o bin/app.bin .
   post_build:
     commands:
-      - echo Executing create-deployment.sh script
+      - echo Executing script to create a deployment
       - |
+        srcdir=${CODEBUILD_SRC_DIR}
+        echo "Source dir is $srcdir"
+        echo "LS of $srcdir:"
+        ls $srcdir
+
         filename=lambda-binary-${RANDOM}.zip
         cp lambda/bin/app.bin .
         echo "Filename is $filename"
