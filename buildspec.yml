@@ -19,5 +19,5 @@ phases:
 
 artifacts:
   files:
-    - 'lambda/**/*'
-    - 'appspec.yml'
+    - '**/*'
+#    - 'appspec.yml'
