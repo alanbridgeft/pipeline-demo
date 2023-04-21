@@ -4,14 +4,19 @@ phases:
   install:
     runtime-versions:
       golang: latest
+  pre_build:
+    commands:
+      - cd lambda
+      - go test ./...
   build:
     commands:
       - echo Build started on `date`
-      - cd lambda && go build -o bin/app.bin .
+      - go build -o bin/app.bin .
   post_build:
     commands:
       - echo Executing script to create a deployment
       - |
+        bucket=codepipeline-us-east-1-987606442308
         srcdir=${CODEBUILD_SRC_DIR}
         echo "Source dir is $srcdir"
         echo "LS of $srcdir:"
@@ -19,24 +24,32 @@ phases:
         echo "pwd :"
         pwd
 
+        echo "Uploading appspec.yml to s3 bucket"
+        aws s3 cp appspec.yml s3://$bucket/demo-pipeline
+
         filename=lambda-binary-${RANDOM}.zip
-        cp $srcdir/lambda/bin/app.bin .
+        echo "Lambda binary created at: $filename"
+
+        echo "Packaging binary"
+        cp bin/app.bin .
         echo "Filename is $filename"
         zip $filename app.bin
         rm app.bin
 
         # upload the zipfile to s3
-        aws s3 cp $filename s3://com.bridgeft.codepipeline
+        echo "Uploading $filename to s3 bucket: $bucket/demo-pipeline"
+        aws s3 cp $filename s3://$bucket/demo-pipeline/lambda-builds
 
         # remove the zip locally
+        echo "Removing $filename"
         rm $filename
 
         # create the deployment
         aws deploy create-deployment --application-name=demo-pipeline-app \
         --deployment-group-name=code-pipeline-deployment-group \
-        --s3-location bucket=com.bridgeft.codepipeline,bundleType=YAML,key=appspec.yml \
+        --s3-location bucket=$bucket,bundleType=YAML,key=demo-pipeline/appspec.yml \
         --region=us-east-1 \
-        --revision=revisionType=S3,s3Location={bucket=com.bridgeft.codepipeline,key=$filename,bundleType=zip}
+        --revision=revisionType=S3,s3Location={bucket=$bucket,key=demo-pipeline/lambda-builds/$filename,bundleType=zip}
 
       - echo Done
 
