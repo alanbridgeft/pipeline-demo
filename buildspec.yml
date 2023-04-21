@@ -16,9 +16,11 @@ phases:
         echo "Source dir is $srcdir"
         echo "LS of $srcdir:"
         ls $srcdir
+        echo "pwd :"
+        pwd
 
         filename=lambda-binary-${RANDOM}.zip
-        cp lambda/bin/app.bin .
+        cp $srcdir/lambda/bin/app.bin .
         echo "Filename is $filename"
         zip $filename app.bin
         rm app.bin
