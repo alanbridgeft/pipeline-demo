@@ -25,7 +25,7 @@ phases:
         pwd
 
         echo "Uploading appspec.yml to s3 bucket"
-        aws s3 cp appspec.yml s3://$bucket/demo-pipeline
+        aws s3 cp appspec.yml s3://$bucket/demo-pipeline/appspec.yml
 
         filename=lambda-binary-${RANDOM}.zip
         echo "Lambda binary created at: $filename"
